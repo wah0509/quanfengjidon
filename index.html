@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="圖片顯示">
+  <title>圖片顯示與跳轉</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 1.3rem;
+      margin: 20px 0 10px;
+      color: #333;
+    }
+
+    #image-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 500px;
+      padding: 10px;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      object-fit: contain;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      width: 100%;
+      max-width: 500px;
+      padding: 20px 10px;
+      background: #fff;
+      box-shadow: 0 -1px 6px rgba(0,0,0,0.1);
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      position: sticky;
+      bottom: 0;
+    }
+
+    button {
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #007aff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+
+    button:hover:enabled {
+      background-color: #005ecb;
+    }
+
+    /* Safe area for iPhone notch */
+    .safe-area {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+  </style>
+</head>
+<body>
+  <h1>銓豐IOS用</h1>
+
+  <!-- 圖片顯示區 -->
+  <div id="image-container">
+    <p>載入中...</p>
+  </div>
+
+  <!-- 按鈕區 -->
+  <div class="button-container safe-area">
+    <button id="btnA" disabled>工程單</button>
+    <button id="btnB">回報表</button>
+  </div>
+
+  <script>
+    const api1 = "https://script.google.com/macros/s/AKfycbwFixIvPv2u2Ydz3YsT2zCJeKRRMKXsNgZzFytegKg5DIE1CavYpp_cAx1HCuHeSPk/exec";
+    const api2 = "https://script.google.com/macros/s/AKfycbxNOh_McOnJN_aDLuARtQpxtKaQZqi1rRFjilB53-QJg8QdnydMMlFTA7wTRwx8jYXj/exec";
+    const urlB = "https://docs.google.com/forms/d/e/1FAIpQLSddKBdNehud58DMVqMYQrWhUfO5XZKbVrZgryiOA_Ss87l4zA/viewform?usp=pp_url&entry.1627345765=不急";
+
+    const imageContainer = document.getElementById("image-container");
+    const btnA = document.getElementById("btnA");
+    const btnB = document.getElementById("btnB");
+
+    // 取得圖片網址
+    fetch(api1)
+      .then(res => res.text())
+      .then(imageUrl => {
+        imageContainer.innerHTML = `<img src="${imageUrl}" alt="圖片載入失敗">`;
+      })
+      .catch(err => {
+        imageContainer.innerHTML = "<p>載入圖片失敗。</p>";
+        console.error(err);
+      });
+
+    // 取得網址 A
+    fetch(api2)
+      .then(res => res.text())
+      .then(urlA => {
+        btnA.disabled = false;
+        btnA.addEventListener("click", () => {
+          window.location.href = urlA;
+        });
+      })
+      .catch(err => {
+        console.error("取得工程單失敗:", err);
+      });
+
+    // 按鈕 B 直接跳轉
+    btnB.addEventListener("click", () => {
+      window.location.href = urlB;
+    });
+  </script>
+</body>
+</html>
