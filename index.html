@@ -119,7 +119,7 @@
     const btnB = document.getElementById("btnB");
 
     // 取得圖片網址
-    fetch(api1)
+    /*fetch(api1)
       .then(res => res.text())
       .then(imageUrl => {
         imageContainer.innerHTML = `<img src="${imageUrl}" alt="圖片載入失敗">`;
@@ -127,7 +127,10 @@
       .catch(err => {
         imageContainer.innerHTML = "<p>載入圖片失敗。</p>";
         console.error(err);
-      });
+      });*/
+    // 測試用
+imageContainer.innerHTML = `<img src="https://drive.google.com/uc?export=view&id=1p9XDmFsOgAMFu3vspRSnOmcBpIioiZve" alt="測試圖片">`;
+
 
     // 取得網址 A
     fetch(api2)
@@ -149,6 +152,7 @@
   </script>
 </body>
 </html>
+
 
 
 
